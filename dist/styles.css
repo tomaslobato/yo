@@ -21,8 +21,9 @@ h1.site-mark { position: relative; justify-self: start; margin: 0; font-family: 
 .copy-status::before { bottom: -6px; border-width: 6px 6px 0; border-top-color: var(--line); }
 .copy-status::after { bottom: -5px; border-width: 5px 5px 0; border-top-color: #1c1d21; }
 .bio { grid-column: 1 / -1; font-size: 1rem; line-height: 1.6; margin: 0; color: var(--muted); }
-.socials { display: grid; gap: 2px; text-align: left; }
-.socials a { display: grid; grid-template-columns: 28px minmax(0, 1fr) 20px; gap: 12px; align-items: center; width: 100%; min-height: 48px; padding: 0 0 8px; background: transparent; }
+.socials { --social-gap: 2px; display: grid; gap: var(--social-gap); text-align: left; }
+.socials a { position: relative; display: grid; grid-template-columns: 28px minmax(0, 1fr) 20px; gap: 12px; align-items: center; width: 100%; min-height: 48px; padding: 0; background: transparent; }
+.socials a + a::before { content: ""; position: absolute; left: 50%; top: calc(var(--social-gap) / -2); width: 75%; height: 1px; transform: translate(-50%, -50%) scaleY(0.25); background: #55575f; pointer-events: none; }
 
 .socials svg { grid-column: 1; justify-self: center; display: block; width: 24px; height: 24px; fill: currentColor; transition: transform .2s ease; }
 .socials a:hover svg, .socials a:focus-visible svg { transform: scale(1.08); }
@@ -34,7 +35,7 @@ h1.site-mark { position: relative; justify-self: start; margin: 0; font-family: 
 .link-text { grid-column: 2; min-width: 0; display: grid; font-size: 1rem; font-weight: 500; text-align: left; }
 .link-name { display: inline-block; line-height: 1.25; transition: text-shadow .2s ease; text-shadow: 0 0 0 transparent; }
 .link-name::after { content: attr(data-text); display: block; height: 0; overflow: hidden; visibility: hidden; font-weight: 700; }
-.socials a:hover .link-name, .socials a:focus-visible .link-name { font-weight: 700; text-shadow: .02em 0 0 currentColor, -.02em 0 0 currentColor; }
+.socials a:hover .link-name, .socials a:focus-visible .link-name { font-weight: 700; text-shadow: .01em 0 0 currentColor, -.01em 0 0 currentColor; }
 .link-text small { grid-row: 2; padding-top: 5px; font-size: .8125rem; line-height: 1.35; font-weight: 400; color: var(--muted); opacity: 0; pointer-events: none; transition: opacity .2s ease, padding-top .2s ease; }
 .socials a:hover .link-text small, .socials a:focus-visible .link-text small { opacity: 1; }
 .link-arrow { grid-column: 3; justify-self: end; color: var(--muted); font-size: 1.2rem; transition: transform .2s ease, color .2s ease; }
@@ -50,8 +51,8 @@ h1.site-mark { position: relative; justify-self: start; margin: 0; font-family: 
   .link-text small { opacity: 1; }
 }
 @media (max-width: 760px) {
-  .socials { gap: 14px; }
-  .socials a { padding-top: 12px; }
+  .socials { --social-gap: 14px; }
+  .socials a { padding-top: 4px; }
   .link-text { font-size: .95rem; }
   .link-name { font-weight: 700; }
   .link-text small { font-size: .75rem; opacity: 1; }

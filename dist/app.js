@@ -1,6 +1,6 @@
 const copy = {
-  es: { bio: 'Creador de contenido y estudiante de ingeniería.', 'youtube-note': 'videos sobre tecnología', 'github-note': 'proyectos de código', 'contact-note': 'envíame un mail', 'x-note': 'publico cualquier cosa', latest: 'Último video', watch: 'Ver en YouTube', channel: 'Ver canal en YouTube', loading: 'Buscando el último video…', unavailable: 'No pudimos consultar el último video. Podés ver los videos en el canal.' },
-  en: { bio: 'Content creator and engineering student.', 'youtube-note': 'videos about technology', 'github-note': 'code projects', 'contact-note': 'send me an email', 'x-note': 'I post whatever', latest: 'Latest video', watch: 'Watch on YouTube', channel: 'View YouTube channel', loading: 'Finding the latest video…', unavailable: 'We couldn’t retrieve the latest video. You can find the videos on the channel.' }
+  es: { bio: 'Soy Tomas Lobato, creador de contenido y estudiante de ingeniería.', 'youtube-note': 'videos sobre tecnología', 'github-note': 'proyectos de código', 'contact-note': 'envíame un mail', 'x-note': 'publico cualquier cosa', latest: 'Último video', watch: 'Ver en YouTube', channel: 'Ver canal en YouTube', loading: 'Buscando el último video…', unavailable: 'No pudimos consultar el último video. Podés ver los videos en el canal.' },
+  en: { bio: 'I\'m Tomas Lobato, content creator and engineering student.', 'youtube-note': 'videos about technology', 'github-note': 'code projects', 'contact-note': 'send me an email', 'x-note': 'I post whatever', latest: 'Latest video', watch: 'Watch on YouTube', channel: 'View YouTube channel', loading: 'Finding the latest video…', unavailable: 'We couldn’t retrieve the latest video. You can find the videos on the channel.' }
 };
 let language = 'es';
 copy.es.contact = 'Contacto';
@@ -16,7 +16,7 @@ function setLanguage(next) {
   language = next;
   document.documentElement.lang = language;
   document.querySelectorAll('[data-i18n]').forEach(element => { element.textContent = copy[language][element.dataset.i18n]; if ('text' in element.dataset) element.dataset.text = element.textContent; });
-  document.querySelector('meta[name="description"]').content = `Tomas Lobato. ${copy[language].bio.replace('\n', ' ')}`;
+  document.querySelector('meta[name="description"]').content = copy[language].bio.replace('\n', ' ');
   document.querySelector('.socials').setAttribute('aria-label', language === 'es' ? 'Redes sociales' : 'Social media');
   document.getElementById('language-toggle').setAttribute('aria-label', language === 'es' ? 'Switch to English' : 'Cambiar a español');
   document.getElementById('language-es').classList.toggle('selected', language === 'es');

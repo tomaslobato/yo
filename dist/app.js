@@ -1,6 +1,6 @@
 const copy = {
-  es: { hello: 'HOLA, SOY', bio: 'Creador de contenido y estudiante de ingeniería en computación.', latest: 'Último video', 'all-videos': 'Ver todos los videos', watch: 'Ver en YouTube', channel: 'Ver canal en YouTube', loading: 'Buscando el último video…', unavailable: 'No pudimos consultar el último video. Podés ver los videos en el canal.', player: 'Podés ver el video directamente en YouTube.' },
-  en: { hello: 'HELLO, I’M', bio: 'Content creator and computer engineering student.', latest: 'Latest video', 'all-videos': 'Watch all videos', watch: 'Watch on YouTube', channel: 'View YouTube channel', loading: 'Finding the latest video…', unavailable: 'We couldn’t retrieve the latest video. You can find the videos on the channel.', player: 'You can watch the video directly on YouTube.' }
+  es: { bio: 'Creador de contenido y estudiante de ingeniería.', 'youtube-note': 'videos sobre tecnología', 'github-note': 'proyectos de código', 'contact-note': 'envíame un mail', 'x-note': 'publico cualquier cosa', latest: 'Último video', watch: 'Ver en YouTube', channel: 'Ver canal en YouTube', loading: 'Buscando el último video…', unavailable: 'No pudimos consultar el último video. Podés ver los videos en el canal.' },
+  en: { bio: 'Content creator and engineering student.', 'youtube-note': 'videos about technology', 'github-note': 'code projects', 'contact-note': 'send me an email', 'x-note': 'I post whatever', latest: 'Latest video', watch: 'Watch on YouTube', channel: 'View YouTube channel', loading: 'Finding the latest video…', unavailable: 'We couldn’t retrieve the latest video. You can find the videos on the channel.' }
 };
 let language = 'es';
 copy.es.contact = 'Contacto';
@@ -15,7 +15,7 @@ try { if (localStorage.getItem('language') === 'en') language = 'en'; } catch {}
 function setLanguage(next) {
   language = next;
   document.documentElement.lang = language;
-  document.querySelectorAll('[data-i18n]').forEach(element => { element.textContent = copy[language][element.dataset.i18n]; });
+  document.querySelectorAll('[data-i18n]').forEach(element => { element.textContent = copy[language][element.dataset.i18n]; if ('text' in element.dataset) element.dataset.text = element.textContent; });
   document.querySelector('meta[name="description"]').content = `Tomas Lobato. ${copy[language].bio.replace('\n', ' ')}`;
   document.querySelector('.socials').setAttribute('aria-label', language === 'es' ? 'Redes sociales' : 'Social media');
   document.getElementById('language-toggle').setAttribute('aria-label', language === 'es' ? 'Switch to English' : 'Cambiar a español');
@@ -31,7 +31,7 @@ function setLanguage(next) {
 function showVideoLink() {
   clearTimeout(playerTimer);
   preview.hidden = false;
-  status = 'player';
+  status = '';
   setLanguage(language);
 }
 function createPlayer() {
@@ -83,6 +83,30 @@ async function loadLatestVideo() {
 }
 thumbnail.onerror = () => { thumbnail.hidden = true; };
 document.getElementById('language-toggle').addEventListener('click', () => setLanguage(language === 'es' ? 'en' : 'es'));
+const mark = document.getElementById('copy-link');
+const copyStatus = document.getElementById('copy-status');
+let markTimer;
+mark.addEventListener('click', async () => {
+  const url = 'https://lobato.me';
+  try {
+    await navigator.clipboard.writeText(url);
+  } catch {
+    const field = document.createElement('textarea');
+    field.value = url;
+    field.setAttribute('readonly', '');
+    field.style.position = 'fixed';
+    field.style.left = '-9999px';
+    document.body.appendChild(field);
+    field.select();
+    const ok = document.execCommand('copy');
+    field.remove();
+    if (!ok) return;
+  }
+  copyStatus.textContent = language === 'es' ? 'copiado' : 'copied';
+  copyStatus.hidden = false;
+  clearTimeout(markTimer);
+  markTimer = setTimeout(() => { copyStatus.hidden = true; }, 1200);
+});
 document.getElementById('year').textContent = new Date().getFullYear();
 setLanguage(language);
 loadLatestVideo();
